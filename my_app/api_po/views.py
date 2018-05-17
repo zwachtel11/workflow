@@ -3,11 +3,11 @@ import sys
 import json
 from flask import request, jsonify, Blueprint, abort
 from flask.views import MethodView
-from flask.ext.restful import Resource
-from flask.ext.restful import reqparse
+from flask_restful import Resource
+from flask_restful import reqparse
 from my_app import db, app, api
-from my_app.user.models import User, Log
-from my_app.auth import requires_auth 
+from my_app.api_po.models import User, Log
+#from my_app.auth import requires_auth 
  
 api_point = Blueprint('api_point', __name__)
 
