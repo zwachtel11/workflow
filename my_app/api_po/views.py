@@ -42,6 +42,9 @@ class UserApi(Resource):
             users = User.query.paginate(page, 100).items
         else:
             users = [User.query.get(id)]
+
+        return users[0].logs
+        '''
         res = {}
         for user in users:
             res[user.id] = {
@@ -51,7 +54,7 @@ class UserApi(Resource):
                 'logs': create_list(user.logs),
             }
         return json.dumps(res)
- 
+        '''
     def post(self):
         args = parser.parse_args()
         name = args['name']
@@ -73,7 +76,6 @@ class UserApi(Resource):
         args = parser.parse_args()
         pagenumber = args['pagenumber']
         pagename = args['pagename']
-
         users = [User.query.get(id)]
         res = {}
         for user in users:
@@ -86,7 +88,6 @@ class UserApi(Resource):
                 'new_log': log,
                 'log_count': str(user.get_count()),
             }
-            
         return json.dumps(res)
 
     def delete(self, id):

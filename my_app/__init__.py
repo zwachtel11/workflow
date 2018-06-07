@@ -9,7 +9,7 @@ from flask_restful import Api
 
 app = Flask(__name__)
 app.config.from_object('config')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test6.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test9.db'
 db = SQLAlchemy(app)
 api = Api(app)
 
