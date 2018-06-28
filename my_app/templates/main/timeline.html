@@ -1,5 +1,18 @@
 {% extends "app_base.html" %}
 {% block content %}
+{% macro render_field(field) %}
+{% if field.errors %}
+<div>
+{% elif field.flags.error %}
+<div>
+{% else %}
+<div>
+{% endif %}
+    {% set css_class = 'form-control ' + kwargs.pop('class', '') %}
+    {{ field(class=css_class, **kwargs) }}
+</div>
+{% endmacro %}
+
 <ul>
 <div id="accordion">
 {% if search_result %}
@@ -18,11 +31,19 @@
                 </div>
                 <div class="col-md-4"><h6 class="card-subtitle mb-2 text-muted">{{ result["created_date"]|e }}</h6></div>
             </div>
-
         </div>
         <div id="{{ loop.index }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                <textarea name="textarea-name" class="form-control" rows="3">{{ result["note"]|e }}</textarea>
+            <p name="textarea-name" class="form-control" rows="3">{{ result["note"]|e }}</p>
+                <form method="post" novalidate>
+                        {{ form.csrf_token }}
+                        <div class="form">
+                          {{ render_field(form.message) }}
+                        </div>
+                        <input value = "{{result["id"]}}" type="hidden" name="my_id">
+                        <button class= "btn btn-outline-success my-2 my-sm-0" type="submit" name="submit">Save</button>
+                </form>
               </div>
+
     </div>
         {#	{% endfor %} #}
 {% endfor %}

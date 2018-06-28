@@ -1,7 +1,7 @@
 from __future__ import print_function # In python 2.7
 import sys
 import json
-from flask import request, jsonify, Blueprint, abort
+from flask import request, jsonify, Blueprint, abort, flash, g, session, redirect, url_for
 from flask.views import MethodView
 from flask_restful import Resource
 from flask_restful import reqparse
@@ -74,21 +74,21 @@ class UserApi(Resource):
         # Update the record for the provided id
         # with the details provided.
         args = parser.parse_args()
-        pagenumber = args['pagenumber']
+        print(args['pagenumber'], file=sys.stdout)
+        pagenumber = int(args['pagenumber'])
         pagename = args['pagename']
         users = [User.query.get(id)]
         res = {}
         for user in users:
-            log = Log(pagename, pagenumber, user.id)
+            log = Log(pagename, user.id, pagenumber)
             db.session.add(log)
             user.logs.append(log)
             db.session.commit()
             res[user.id] = {
                 'name': user.name,
                 'new_log': log,
-                'log_count': str(user.get_count()),
             }
-        return json.dumps(res)
+        return []
 
     def delete(self, id):
         # Delete the record for the provided id.

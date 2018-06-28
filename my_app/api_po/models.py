@@ -21,6 +21,7 @@ class User(db.Model):
 class Log(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     pagename = db.Column(db.String(255))
+    pagenumber = db.Column(db.String(255))
     note = db.Column(db.String(255))
     created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
