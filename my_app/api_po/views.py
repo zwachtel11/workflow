@@ -57,8 +57,8 @@ class UserApi(Resource):
         '''
     def post(self):
         args = parser.parse_args()
-        name = args['name']
-        password = args['password']
+        name = str(args['name'])
+        password = str(args['password'])
         user = User(name, password)
         db.session.add(user)
         db.session.commit()
@@ -68,13 +68,12 @@ class UserApi(Resource):
             'password': user.password,
             'created_date': str(user.created_date),
         }
-        return json.dumps(res)
+        return res
  
     def put(self, id):
         # Update the record for the provided id
         # with the details provided.
         args = parser.parse_args()
-        print(args['pagenumber'], file=sys.stdout)
         pagenumber = int(args['pagenumber'])
         pagename = args['pagename']
         users = [User.query.get(id)]
@@ -88,7 +87,7 @@ class UserApi(Resource):
                 'name': user.name,
                 'new_log': log,
             }
-        return []
+        return res
 
     def delete(self, id):
         # Delete the record for the provided id.

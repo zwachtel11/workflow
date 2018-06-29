@@ -9,7 +9,6 @@ from my_app.api_po.views import UserApi
 
 def get_logs(id):
     td = UserApi()
-    td.post()
     return td.get(id)
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
@@ -20,7 +19,8 @@ mod_main = Blueprint('main', __name__, url_prefix='/main')
 
 def main():
     form = NotesForm(request.form)
-    logs = get_logs(1)[::-1]
+    
+    logs = get_logs(int(session['user_id']))[::-1]
     if form.validate_on_submit():
         test = Log.query.filter_by(id=int(request.form.get("my_id","").replace("#", ""))).first()
         test.note = form.message.data
